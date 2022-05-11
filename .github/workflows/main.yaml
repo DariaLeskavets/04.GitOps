@@ -9,13 +9,19 @@ jobs:
   prepare: 
     runs-on: ubuntu-latest
     outputs: 
-      output1: ${{ steps.files.outputs.all_changed_files }}
+      output1: ${{ steps.files.outputs.files }}
     steps:
       - uses: actions/checkout@v3
 
       - name: Get changes files
-        id: files
+        id: base
         uses: tj-actions/changed-files@v19
+
+      - name: Convert file to JSON
+        id: files
+        run: |
+          prep_files=${{ steps.base.outputs.all_changed_files }}
+          echo "::set-output name=files::$prep_files"
 
       - name: list
         run: |
@@ -27,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        check_files: ${{ needs.prepare.outputs.output1 }}
+        check_files: ${{ fromJson(needs.prepare.outputs.files) }}
     
     steps:
       - uses: actions/checkout@v3    
