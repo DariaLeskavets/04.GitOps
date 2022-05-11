@@ -19,6 +19,6 @@ jobs:
 
       - name: list
         run: |
-          for file in ${{ steps.files.all_changed_files }}; do
+          for file in ${{ steps.files.outputs.all_changed_files }}; do
             echo "$file"
           done
