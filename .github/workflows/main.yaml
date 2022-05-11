@@ -17,12 +17,13 @@ jobs:
 
       - name: Scan files
         run: |
-          for file in ${{ steps.files.outputs.all_changed_files }} 
-            if [[ "$file" != *"yaml"* ]]; then
-              do 
+          for file in ${{ steps.files.outputs.all_changed_files }}
+            do   
+              if [[ "$file" != *"yaml"* ]]; then
+               
                 echo $file
                 grep $'\t' $file > $file.log 
-            fi
+              fi
             done
       
       - name: Upload report
