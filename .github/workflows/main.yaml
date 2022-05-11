@@ -16,7 +16,8 @@ jobs:
       - name: Get changes files
         id: base
         uses: tj-actions/changed-files@v19
-        files_ignore: |
+        with:
+          files_ignore: |
             *.yml
             *.yaml
 
