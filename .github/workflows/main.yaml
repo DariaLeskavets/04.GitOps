@@ -19,9 +19,7 @@ jobs:
 
       - name: Convert file to JSON
         id: files
-        run: |
-          prep_files=${{ steps.base.outputs.all_changed_files }}
-          echo "::set-output name=files::$prep_files"
+        run: echo "::set-output name=files::${{ steps.base.outputs.all_changed_files }}"
 
       - name: list
         run: |
