@@ -22,7 +22,7 @@ jobs:
               if [[ "$file" != *"yaml"* ]]; then
                
                 echo $file
-                grep $'\t' $file > $file.log 
+                grep $'\t' "$file" > "$file".log 
               fi
             done
       
