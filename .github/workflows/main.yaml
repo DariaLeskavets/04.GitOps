@@ -23,7 +23,7 @@ jobs:
           for file in ${{ steps.files.outputs.all_changed_files }} > ${{ steps.files.outputs.all_changed_files }}
             do 
               echo $file
-              grep $'\t' $file > file.log 
+              grep $'\t' $file > $file.log 
             done
       
       - name: Upload report
