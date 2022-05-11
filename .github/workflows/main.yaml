@@ -20,7 +20,7 @@ jobs:
 
       - name: Scan files
         run: |
-          for file in ${{ steps.files.outputs.all_changed_files }} > ${{ steps.files.outputs.all_changed_files }}
+          for file in ${{ steps.files.outputs.all_changed_files }} 
             do 
               echo $file
               grep $'\t' $file > $file.log 
