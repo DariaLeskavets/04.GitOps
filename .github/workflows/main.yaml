@@ -16,6 +16,9 @@ jobs:
       - name: Get changes files
         id: base
         uses: tj-actions/changed-files@v19
+        files_ignore: |
+            *.yml
+            *.yaml
 
       - name: Convert file to JSON
         id: files
