@@ -1,0 +1,20 @@
+name: find tabs in code
+
+on :
+  push:
+    branches: 
+      - main  
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get changes files
+        id: files
+        uses: tj-actions/changed-files@v19
+
+      - name: list
+        run: |
+          for file in ${{ steps.files.all_changed_files }}; do
+            echo "$file"
+          done
