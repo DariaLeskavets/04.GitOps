@@ -14,16 +14,15 @@ jobs:
       - name: Get changes files
         id: files
         uses: tj-actions/changed-files@v19
-        with:
-          files_ignore: |
-            main.yaml
 
       - name: Scan files
         run: |
           for file in ${{ steps.files.outputs.all_changed_files }} 
-            do 
-              echo $file
-              grep $'\t' $file > $file.log 
+            if [[ "$file" != *"yaml"* ]]; then
+              do 
+                echo $file
+                grep $'\t' $file > $file.log 
+            fi
             done
       
       - name: Upload report
