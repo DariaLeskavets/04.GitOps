@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        check_files: ${{ fromJson(needs.prepare.outputs.files) }}
+        check_files: ${{ fromJson(needs.prepare.outputs.output1) }}
     
     steps:
       - uses: actions/checkout@v3    
