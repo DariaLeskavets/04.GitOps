@@ -8,7 +8,8 @@ on :
 jobs:
   prepare: 
     runs-on: ubuntu-latest
-    output: ${{ steps.files.outputs.all_changed_files }}
+    outputs: 
+      output1: ${{ steps.files.outputs.all_changed_files }}
     steps:
       - uses: actions/checkout@v3
 
@@ -26,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        check_files: ${{ prepare.output }}
+        check_files: ${{ needs.prepare.outputs.output1 }}
     
     steps:
       - uses: actions/checkout@v3    
