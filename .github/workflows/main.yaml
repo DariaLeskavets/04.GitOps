@@ -16,18 +16,15 @@ jobs:
         uses: tj-actions/changed-files@v19
         with:
           files_ignore: |
-            *.yml
-            *.yaml
-  
-      - name: list
-        run: |
-          for file in ${{ steps.files.outputs.all_changed_files }}; do
-            echo "$file"
-          done
+            main.yaml
 
       - name: Scan files
         run: |
-          grep $'\t' ${{ steps.files.outputs.all_changed_files }} > ${{ steps.files.outputs.all_changed_files  }}.log 
+          for file in ${{ steps.files.outputs.all_changed_files }} > ${{ steps.files.outputs.all_changed_files }}
+            do 
+              echo $file
+              grep $'\t' $file > file.log 
+            done
       
       - name: Upload report
         uses: actions/upload-artifact@v2
