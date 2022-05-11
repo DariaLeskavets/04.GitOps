@@ -9,7 +9,7 @@ jobs:
   prepare: 
     runs-on: ubuntu-latest
     outputs: 
-      output1: ${{ steps.files.outputs.files }}
+      files: ${{ steps.files.outputs.files }}
     steps:
       - uses: actions/checkout@v3
 
@@ -25,21 +25,22 @@ jobs:
         id: files
         run: echo "::set-output name=files::${{ steps.base.outputs.all_changed_files }}"
 
-      - name: list
-        run: |
-          for file in ${{ steps.files.outputs.all_changed_files }}; do
-            echo "$file"
-          done
+     
   build:
     needs: prepare
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        check_files: ${{ fromJson(needs.prepare.outputs.output1) }}
+        check_files: ${{ fromJson(needs.prepare.outputs.files) }}
     
     steps:
       - uses: actions/checkout@v3    
 
+      - name: list
+        run: |
+          for file in ${{ matrix.check_files }}; do
+            echo "$file"
+          done
       - name: Scan files
         run: |
           grep $'\t' ${{ matrix.check_files }} > ${{ matrix.check_files }}.log 
