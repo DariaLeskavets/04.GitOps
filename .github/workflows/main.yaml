@@ -6,12 +6,10 @@ on :
       - main  
 
 jobs:
-  build: 
+  prepare: 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth:
 
       - name: Get changes files
         id: files
@@ -22,3 +20,22 @@ jobs:
           for file in ${{ steps.files.outputs.all_changed_files }}; do
             echo "$file"
           done
+  build:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        check_files: ${{ steps.files.outputs.all_changed_files }}
+
+    steps:
+      - uses: actions/checkout@v3    
+
+      - name: Scan files
+        run: |
+          grep $'\t' ${{ matrix.check_files }} > ${{ matrix.check_files }}.log 
+      
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ matrix.check_files }}.log
+
