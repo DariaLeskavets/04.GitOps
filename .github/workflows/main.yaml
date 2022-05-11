@@ -8,45 +8,29 @@ on :
 jobs:
   prepare: 
     runs-on: ubuntu-latest
-    outputs: 
-      files: ${{ steps.files.outputs.files }}
     steps:
       - uses: actions/checkout@v3
 
       - name: Get changes files
-        id: base
+        id: files
         uses: tj-actions/changed-files@v19
         with:
           files_ignore: |
             *.yml
             *.yaml
-
-      - name: Convert file to JSON
-        id: files
-        run: echo "::set-output name=files::${{ steps.base.outputs.all_changed_files }}"
-
-     
-  build:
-    needs: prepare
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: 
-        check_files: ${{ fromJson(needs.prepare.outputs.files) }}
-    
-    steps:
-      - uses: actions/checkout@v3    
-
+  
       - name: list
         run: |
-          for file in ${{ matrix.check_files }}; do
+          for file in ${{ steps.files.outputs.all_changed_files }}; do
             echo "$file"
           done
+
       - name: Scan files
         run: |
-          grep $'\t' ${{ matrix.check_files }} > ${{ matrix.check_files }}.log 
+          grep $'\t' ${{ steps.files.outputs.all_changed_files }} > ${{ steps.files.outputs.all_changed_files  }}.log 
       
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
-          path: ${{ matrix.check_files }}.log
+          path: ${{ steps.files.outputs.all_changed_files }}.log
 
