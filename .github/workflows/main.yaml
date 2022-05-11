@@ -21,13 +21,13 @@ jobs:
             do   
               if [[ "$file" != *"yaml"* ]]; then
                
-                echo $file
-                grep $'\t' "$file" > "$file".log 
+                echo $file >> file.log
+                grep $'\t' $file >> file.log 
               fi
             done
       
       - name: Upload report
         uses: actions/upload-artifact@v2
         with:
-          path: ${{ steps.files.outputs.all_changed_files }}.log
+          path: file.log
 
